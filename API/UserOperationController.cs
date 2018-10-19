@@ -33,10 +33,11 @@ namespace ProxyInfoWeb.API
                 DBOperation.StructDBOperation[] objParam = new DBOperation.StructDBOperation[3];
                 int iParamCount = 0;
                 string sMobile_OTP = "";
+
                 #endregion
 
                 #region validation
-  
+
                 if (long.Equals(objUserInfo.lMobileNo,null) || objUserInfo.lMobileNo.Equals(""))
                 {
                     return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Mobile Number can't be blank");
