@@ -1,0 +1,118 @@
+﻿@model ProxyInfoWeb.Models.LoginInfo
+<!Doctype html>
+<head>    
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <script src="~/Content/js/jquery.min.js"></script>
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    @* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
+
+    <style type="text/css">
+.bgimg {
+    background-image: url('../Content/Images/backgroundDefault.jpg');
+}
+/*body {
+    background-color: lightblue;
+}*/
+body, html {
+    height: 100%;
+}
+        #txtError {
+            border: 0px solid #000000;
+    border-bottom-width: 1px;
+    background-color: transparent;
+        }
+.bg {
+    /* The image used */
+    background-image: url("../Content/Images/backgroundDefault.jpg");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+</style>
+</head>
+@{
+    ViewBag.Title = "Login";
+}
+<script type="text/javascript">
+    $.ready(function () {
+        var vVal = "@Model";
+        if (vVal != "null") {
+            alert(vVal);
+            $("#divError").show();
+            $("#txtError").val = "@Model";
+        }
+            
+    });
+</script>
+<div class="container-fluid"  style="height:100%">
+    <div class="row bg">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4" style="margin-top:15%">
+            
+            @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+            {   
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                
+                <div style="border:2px solid black;border-radius: 25px;" class="col-lg-12">
+                    <div class="col-lg-12">
+                    <div class="col-lg-2">
+                        </div>
+                    <div class="col-lg-10">
+                        @Html.LabelFor(m => m.sUsername, "Username : ", new { @class = "label label-default" })
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user blue"></i></span>
+                            @Html.TextBoxFor(m => m.sUsername, new { @class = "form-control", @placeholder = "Enter UserName" })
+                        </div>
+                    </div>
+                        <br /><br />
+                        <br /><br />
+                        </div>
+                  
+                    <div class="col-lg-12">
+                    <div class="col-lg-2">
+                        </div>
+                    <div class="col-lg-10">
+                        @Html.LabelFor(m => m.sPassword, "Password : ", new { @class = "label label-default" })
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock blue"></i></span>
+                            @Html.TextBoxFor(m => m.sPassword, new { @class = "form-control", @placeholder = "Enter Password" })
+                        </div>
+                    </div>
+                        </div>
+                    <div class="col-lg-12">
+                        <div class="col-lg-8">
+                        </div>
+                        <div class="col-lg-4">
+                            <br />
+                            <button type="submit" class="btn">
+                                <span class="glyphicon glyphicon-hand-right"></span>
+                                @*<span class="glyphicon glyphicon-hands-up"></span>*@
+                                submit</button>
+                            <br />
+                            <br />
+                        </div>
+                    </div>
+                     <div class="col-lg-12" hidden="hidden" id="divError">
+                        <input type="text" id="txtError" disabled="disabled"/>
+                            <br />
+                            <br />
+                            <br />
+                        
+                    </div>
+            </div>
+            }
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+</div>
+    </html>

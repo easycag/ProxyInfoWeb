@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ipproxydetailModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="ipproxydetailEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="IP_Info" EntityType="ipproxydetailModel.IP_Info" />
+  </EntityContainer>
+  <EntityType Name="IP_Info">
+    <Key>
+      <PropertyRef Name="SerialNo" />
+      <PropertyRef Name="Proxy" />
+      <PropertyRef Name="Proxy_Port" />
+    </Key>
+    <Property Name="SerialNo" Type="Decimal" Nullable="false" Precision="18" Scale="0" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="IPv4" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="Proxy" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="Proxy_Port" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="IPv4_Address" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="IPv4_City" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+    <Property Name="IPv4_State" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+    <Property Name="IPv4_Country" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+    <Property Name="IPv4_Category" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+    <Property Name="LastUpdated" Type="DateTime" Precision="3" />
+    <Property Name="LastUpdatedBy" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="InsertedDate" Type="DateTime" Precision="3" />
+    <Property Name="InsertedBy" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="IPv4_Speed" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
+    <Property Name="ASNUM" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="ORG_NAME" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+    <Property Name="POSTAL_CODE" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="LATITUDE" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="LONGITUDE" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="TZ" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+  </EntityType>
+</Schema>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ipproxydetailModelStoreContainer" CdmEntityContainer="ipproxydetailEntities">
+    <EntitySetMapping Name="IP_Info">
+      <EntityTypeMapping TypeName="ipproxydetailModel.IP_Info">
+        <MappingFragment StoreEntitySet="IP_Info">
+          <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
+          <ScalarProperty Name="IPv4" ColumnName="IPv4" />
+          <ScalarProperty Name="Proxy" ColumnName="Proxy" />
+          <ScalarProperty Name="Proxy_Port" ColumnName="Proxy_Port" />
+          <ScalarProperty Name="IPv4_Address" ColumnName="IPv4_Address" />
+          <ScalarProperty Name="IPv4_City" ColumnName="IPv4_City" />
+          <ScalarProperty Name="IPv4_State" ColumnName="IPv4_State" />
+          <ScalarProperty Name="IPv4_Country" ColumnName="IPv4_Country" />
+          <ScalarProperty Name="IPv4_Category" ColumnName="IPv4_Category" />
+          <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+          <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+          <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="IPv4_Speed" ColumnName="IPv4_Speed" />
+          <ScalarProperty Name="ASNUM" ColumnName="ASNUM" />
+          <ScalarProperty Name="ORG_NAME" ColumnName="ORG_NAME" />
+          <ScalarProperty Name="POSTAL_CODE" ColumnName="POSTAL_CODE" />
+          <ScalarProperty Name="LATITUDE" ColumnName="LATITUDE" />
+          <ScalarProperty Name="LONGITUDE" ColumnName="LONGITUDE" />
+          <ScalarProperty Name="TZ" ColumnName="TZ" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

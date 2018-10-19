@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ipproxydetailModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="ipproxydetailModelStoreContainer">
+          <EntitySet Name="IP_Info" EntityType="ipproxydetailModel.Store.IP_Info" store:Type="Tables" store:Schema="dbo" store:Name="IP_Info">
+            <DefiningQuery>SELECT 
+      [IP_Info].[SerialNo] AS [SerialNo], 
+      [IP_Info].[IPv4] AS [IPv4], 
+      [IP_Info].[Proxy] AS [Proxy], 
+      [IP_Info].[Proxy_Port] AS [Proxy_Port], 
+      [IP_Info].[IPv4_Address] AS [IPv4_Address], 
+      [IP_Info].[IPv4_City] AS [IPv4_City], 
+      [IP_Info].[IPv4_State] AS [IPv4_State], 
+      [IP_Info].[IPv4_Country] AS [IPv4_Country], 
+      [IP_Info].[IPv4_Category] AS [IPv4_Category], 
+      [IP_Info].[LastUpdated] AS [LastUpdated], 
+      [IP_Info].[LastUpdatedBy] AS [LastUpdatedBy], 
+      [IP_Info].[InsertedDate] AS [InsertedDate], 
+      [IP_Info].[InsertedBy] AS [InsertedBy], 
+      [IP_Info].[IPv4_Speed] AS [IPv4_Speed], 
+      [IP_Info].[ASNUM] AS [ASNUM], 
+      [IP_Info].[ORG_NAME] AS [ORG_NAME], 
+      [IP_Info].[POSTAL_CODE] AS [POSTAL_CODE], 
+      [IP_Info].[LATITUDE] AS [LATITUDE], 
+      [IP_Info].[LONGITUDE] AS [LONGITUDE], 
+      [IP_Info].[TZ] AS [TZ]
+      FROM [dbo].[IP_Info] AS [IP_Info]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'ipproxydetail.dbo.IP_Info' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="IP_Info">
+          <Key>
+            <PropertyRef Name="SerialNo" />
+            <PropertyRef Name="Proxy" />
+            <PropertyRef Name="Proxy_Port" />
+          </Key>
+          <Property Name="SerialNo" Type="numeric" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IPv4" Type="varchar" MaxLength="20" />
+          <Property Name="Proxy" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="Proxy_Port" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="IPv4_Address" Type="varchar" MaxLength="100" />
+          <Property Name="IPv4_City" Type="varchar" MaxLength="30" />
+          <Property Name="IPv4_State" Type="varchar" MaxLength="30" />
+          <Property Name="IPv4_Country" Type="varchar" MaxLength="30" />
+          <Property Name="IPv4_Category" Type="varchar" MaxLength="30" />
+          <Property Name="LastUpdated" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="InsertedDate" Type="datetime" />
+          <Property Name="InsertedBy" Type="varchar" MaxLength="50" />
+          <Property Name="IPv4_Speed" Type="varchar" MaxLength="15" />
+          <Property Name="ASNUM" Type="varchar" MaxLength="50" />
+          <Property Name="ORG_NAME" Type="varchar" MaxLength="500" />
+          <Property Name="POSTAL_CODE" Type="varchar" MaxLength="50" />
+          <Property Name="LATITUDE" Type="varchar" MaxLength="50" />
+          <Property Name="LONGITUDE" Type="varchar" MaxLength="50" />
+          <Property Name="TZ" Type="varchar" MaxLength="50" />
+        </EntityType>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ipproxydetailModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ipproxydetailEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="IP_Info" EntityType="ipproxydetailModel.IP_Info" />
+        </EntityContainer>
+        <EntityType Name="IP_Info">
+          <Key>
+            <PropertyRef Name="SerialNo" />
+            <PropertyRef Name="Proxy" />
+            <PropertyRef Name="Proxy_Port" />
+          </Key>
+          <Property Name="SerialNo" Type="Decimal" Nullable="false" Precision="18" Scale="0" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="IPv4" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="Proxy" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="Proxy_Port" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="IPv4_Address" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="IPv4_City" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="IPv4_State" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="IPv4_Country" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="IPv4_Category" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="InsertedDate" Type="DateTime" Precision="3" />
+          <Property Name="InsertedBy" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="IPv4_Speed" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="ASNUM" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="ORG_NAME" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="POSTAL_CODE" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="LATITUDE" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="LONGITUDE" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="TZ" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ipproxydetailModelStoreContainer" CdmEntityContainer="ipproxydetailEntities">
+          <EntitySetMapping Name="IP_Info">
+            <EntityTypeMapping TypeName="ipproxydetailModel.IP_Info">
+              <MappingFragment StoreEntitySet="IP_Info">
+                <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
+                <ScalarProperty Name="IPv4" ColumnName="IPv4" />
+                <ScalarProperty Name="Proxy" ColumnName="Proxy" />
+                <ScalarProperty Name="Proxy_Port" ColumnName="Proxy_Port" />
+                <ScalarProperty Name="IPv4_Address" ColumnName="IPv4_Address" />
+                <ScalarProperty Name="IPv4_City" ColumnName="IPv4_City" />
+                <ScalarProperty Name="IPv4_State" ColumnName="IPv4_State" />
+                <ScalarProperty Name="IPv4_Country" ColumnName="IPv4_Country" />
+                <ScalarProperty Name="IPv4_Category" ColumnName="IPv4_Category" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
+                <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+                <ScalarProperty Name="IPv4_Speed" ColumnName="IPv4_Speed" />
+                <ScalarProperty Name="ASNUM" ColumnName="ASNUM" />
+                <ScalarProperty Name="ORG_NAME" ColumnName="ORG_NAME" />
+                <ScalarProperty Name="POSTAL_CODE" ColumnName="POSTAL_CODE" />
+                <ScalarProperty Name="LATITUDE" ColumnName="LATITUDE" />
+                <ScalarProperty Name="LONGITUDE" ColumnName="LONGITUDE" />
+                <ScalarProperty Name="TZ" ColumnName="TZ" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
