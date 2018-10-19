@@ -8,19 +8,21 @@ namespace ProxyInfoWeb.Models.Consignment
     public class ConsignmentDetail
     {
         public int CId;
+        public int UserID;
         public string DepartureCity;
         public string DestinationCity;
         public DateTime CDate;
-        public DateTime CTime;
-        public DateTime CreatedDateTime;
-        public DateTime LastLoggedInDateTime;
+        public string Cmaterial;
         public string ApproximateWeight;
-        public string ConsignmentDescription;
+        public string ApproximateBudget;
         public bool Loading;
         public bool UnLoading;
-        public string ApproximateBudget;
-        public int UserID;
-        public int BidID;
-        public string Status; //Pending and Completed
+        public int Cstatus;
+        public DateTime CdeliveryDate;
+        public int CupdateCount;
+        public DateTime CcreateDate;
+        public long CtotalAmount;
+        public long CpendingAmount;
+        
     }
 }

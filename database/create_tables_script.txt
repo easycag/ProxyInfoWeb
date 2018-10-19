@@ -1,0 +1,28 @@
+CREATE TABLE ConsignmentOffer(
+load_id	INT PRIMARY KEY NOT NULL IDENTITY(1000,3),
+user_id	INT NOT NULL,
+load_departure_city VARCHAR(100) NOT NULL,	
+load_destination_city	VARCHAR(100) NOT NULL,
+load_datetime	DATETIME  NOT NULL,
+load_material	VARCHAR(150) NOT NULL,
+load_weight	FLOAT NOT NULL,
+load_budget	BIGINT NOT NULL,
+load_loading  BIT NOT NULL,	
+load_unloading	BIT NOT NULL,
+load_status	VARCHAR(1) NOT NULL,
+load_update_count	INT NULL,	
+load_deliver_datetime DATETIME NULL,
+load_total_amount	BIGINT NULL,
+load_pending_amount	BIGINT NULL,
+load_create_datetime DATETIME  NOT NULL
+);
+
+
+CREATE TABLE user_login(
+user_id	INT PRIMARY KEY NOT NULL IDENTITY(100,3),
+user_mobile_no	BIGINT UNIQUE NOT NULL,
+user_verification	BIT NULL,
+user_preference	INT NULL,
+user_otp	INT NOT NULL,
+user_last_login	DATETIME NOT NULL
+);

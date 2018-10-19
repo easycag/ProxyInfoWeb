@@ -1,0 +1,33 @@
+ALTER procedure [dbo].[ProcUserLogin]
+(
+@vQueryType VARCHAR(50),
+@iMobileNo	BigInt,
+@iMobileOTP	INT = NULL,
+@iUserPreference INT = NULL
+)
+AS 
+BEGIN
+IF(upper(@vQueryType) = 'USERLOGIN')
+	BEGIN
+	
+		UPDATE user_login set user_otp=@iMobileOTP where user_mobile_no=@iMobileNo
+		IF @@ROWCOUNT=0
+		insert into user_login(user_mobile_no,user_otp) values(@iMobileNo,@iMobileOTP);
+	END
+ELSE 
+IF(upper(@vQueryType) = 'GETUSEROTPDETAILS')
+
+	BEGIN
+		SELECT user_otp FROM user_login WHERE user_mobile_no=@iMobileNo AND user_otp=@iMobileOTP;
+	END
+
+ELSE 
+IF(upper(@vQueryType) = 'UPDATEPREFERENCE')
+
+	BEGIN
+		UPDATE user_login SET user_preference=@iUserPreference WHERE user_mobile_no=@iMobileNo;
+	END
+
+END
+GO
+

@@ -21,7 +21,7 @@ namespace ProxyInfoWeb.API
         string sRetVal = "";
         EncryptionLibrary.Encryption ec = new EncryptionLibrary.Encryption();
 
-        //*******************************************************************************************************
+        //***************************************** User Login **************************************************
         //      UserLogin   :   Login/Signup user with mobile number                                            *
         //      ValidateOTP :   Validate register mobile number with OTP                                        *
         //      UpdateUserPreference    :   Update user preference of user i.e. Company Owner/ Fleet Owner      *
@@ -273,51 +273,14 @@ namespace ProxyInfoWeb.API
         }
 
 
-        private string UpdateEmailOTPStatus(string sEmailID)
-        {
-            DataTable dt = new DataTable();
-            DBOperation.StructDBOperation[] structDBOperation = new DBOperation.StructDBOperation[2];
+        //*******************************************************************************************************
+        //      UserLogin   :   Login/Signup user with mobile number                                            *
+        //      ValidateOTP :   Validate register mobile number with OTP                                        *
+        //      UpdateUserPreference    :   Update user preference of user i.e. Company Owner/ Fleet Owner      *
+        //                                                                                                      *
+        //*******************************************************************************************************
+        
 
-                structDBOperation[0].sParamName = "@vQueryType";
-                structDBOperation[0].sParamType = SqlDbType.VarChar;
-                structDBOperation[0].sParamValue = "UPDATEEMAIL";
-
-                structDBOperation[1].sParamName = "@vUserName";
-                structDBOperation[1].sParamType = SqlDbType.VarChar;
-                structDBOperation[1].sParamValue = sEmailID;
-
-                sRetVal = DBOperation.ExecuteDBOperation("ProcUpdateUserStatus", DBOperation.OperationType.STOREDPROC_UPDATE, structDBOperation, ref dt);
-
-                if (sRetVal == "SUCCESS")
-                {
-                    return "SUCCESS";
-                }
-                else
-                    return "FAILURE";
-        }
-
-        private string UpdateMobileOTPStatus(string sEmailID)
-        {
-            DataTable dt = new DataTable();
-            DBOperation.StructDBOperation[] structDBOperation = new DBOperation.StructDBOperation[2];
-
-            structDBOperation[0].sParamName = "@vQueryType";
-            structDBOperation[0].sParamType = SqlDbType.VarChar;
-            structDBOperation[0].sParamValue = "UPDATEMOBILE";
-
-            structDBOperation[1].sParamName = "@vUserName";
-            structDBOperation[1].sParamType = SqlDbType.VarChar;
-            structDBOperation[1].sParamValue = sEmailID;
-
-            sRetVal = DBOperation.ExecuteDBOperation("ProcUpdateUserStatus", DBOperation.OperationType.STOREDPROC_UPDATE, structDBOperation, ref dt);
-
-            if (sRetVal == "SUCCESS")
-            {
-                return "SUCCESS";
-            }
-            else
-                return "FAILURE";
-        }
 
         public HttpResponseMessage UpdateRecord(UserInfo objUserInfo)
         {
@@ -434,212 +397,7 @@ namespace ProxyInfoWeb.API
                 return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Please Contact Administrator with below mentioned error " + sRetVal);
             }
         }
-
-        public HttpResponseMessage ForgotPassword(UserInfo objUserInfo)
-        {
-            #region declaration
-            DataTable dt = new DataTable();
-            
-            Random r = new Random();
-            DBOperation.StructDBOperation[] objParam = new DBOperation.StructDBOperation[7];
-            int iParamCount = 0;
-            string sOTP = "";
-            string sMobile = "";
-            #endregion
-
-            #region validation
-
-            if (string.IsNullOrEmpty(objUserInfo.sEmailID))
-            {
-                return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Email ID can't be blank");
-            }
-            #endregion
-            #region Business Logic 
-            DBOperation.sConnectionString = ec.Decrypt(GlobalClass.sConnectionString);
-            DBOperation.StructDBOperation[] structDBOperation = new DBOperation.StructDBOperation[2];
-
-            structDBOperation[0].sParamName = "@vQueryType";
-            structDBOperation[0].sParamType = SqlDbType.VarChar;
-            structDBOperation[0].sParamValue = "GETUSERDETAILS";
-
-            structDBOperation[1].sParamName = "@vUserName";
-            structDBOperation[1].sParamType = SqlDbType.VarChar;
-            structDBOperation[1].sParamValue = objUserInfo.sEmailID;
-
-            sRetVal = DBOperation.ExecuteDBOperation("ProcGetUserInfo_App", DBOperation.OperationType.STOREDPROC, structDBOperation, ref dt);
-
-            if (sRetVal == "SUCCESS")
-            {
-                //Logs.StoreActivityLogsInDB(LogType.Login, GlobalData.iUserID, "Logged in successfully.", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    sMobile = Convert.ToString(dt.Rows[0]["MobileNo"]);
-                }
-                else
-                {
-                    return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "No Email ID register.");
-                }
-            }
-            else
-                return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Some error occured into information fetching, Please Contact administrator.");
-
-
-            r = new Random();
-            sOTP = r.Next().ToString();
-            sOTP = sOTP.PadLeft(6, '0');
-            sOTP = sOTP.Substring(0, 6);
-
-           
-            if (string.IsNullOrEmpty(sMobile))
-            {
-                sendSMS(objUserInfo.lMobileNo, "Your OTP for password recovery is " + sOTP);
-            }
-
-            #region OTP insertion into Table for verification
-            string sQuery = "ProcUserForgetPassword";
-            DBOperation.StructDBOperation[] structTempDBOperation = new DBOperation.StructDBOperation[3];
-
-            structTempDBOperation[iParamCount].sParamName = "@vQueryType";
-            structTempDBOperation[iParamCount].sParamType = SqlDbType.VarChar;
-            structTempDBOperation[iParamCount].sParamValue = "GETUSERDETAILS";
-            iParamCount++;
-
-            structTempDBOperation[iParamCount].sParamName = "@vEmail";
-            structTempDBOperation[iParamCount].sParamType = SqlDbType.VarChar;
-            structTempDBOperation[iParamCount].sParamValue = objUserInfo.sEmailID;
-            iParamCount++;
-
-            structTempDBOperation[iParamCount].sParamName = "@vOTP";
-            structTempDBOperation[iParamCount].sParamType = SqlDbType.VarChar;
-            structTempDBOperation[iParamCount].sParamValue = sOTP;
-            iParamCount++;
-
-            sRetVal= DBOperation.ExecuteDBOperation(sQuery, DBOperation.OperationType.STOREDPROC, structTempDBOperation, ref dt);
-            if (sRetVal == "SUCCESS")
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, "OTP sent to registered email id or mobile number successfully.");
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Error in generating OTP.");
-            }
-            #endregion
-            #endregion
-        }
         
-        public HttpResponseMessage ValidateForgotPasswordOTP(UserInfo_ForGetOTP objUserInfoForGetOTP)
-        {
-            #region Declaration
-            string sRetVal = "";
-            DataTable dt = null;
-            #endregion
-
-            #region validation
-            if (string.IsNullOrEmpty(objUserInfoForGetOTP.sEmailID))
-            {
-                return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Email ID can't be blank.");
-            }
-
-            if (string.IsNullOrEmpty(objUserInfoForGetOTP.sOTP))
-            {
-                return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "OTP can't be blank.");
-            }
-            #endregion
-            try
-            {
-                DBOperation.sConnectionString = ec.Decrypt(GlobalClass.sConnectionString);
-                DBOperation.StructDBOperation[] structDBOperation = new DBOperation.StructDBOperation[2];
-
-                structDBOperation[0].sParamName = "@vQueryType";
-                structDBOperation[0].sParamType = SqlDbType.VarChar;
-                structDBOperation[0].sParamValue = "FORGOTPASSWORDOTPDETAILS";
-
-                structDBOperation[1].sParamName = "@vUserName";
-                structDBOperation[1].sParamType = SqlDbType.VarChar;
-                structDBOperation[1].sParamValue = objUserInfoForGetOTP.sEmailID;
-
-                sRetVal = DBOperation.ExecuteDBOperation("ProcGetUserInfo_App", DBOperation.OperationType.STOREDPROC, structDBOperation, ref dt);
-
-                if (sRetVal == "SUCCESS")
-                {
-                    //Logs.StoreActivityLogsInDB(LogType.Login, GlobalData.iUserID, "Logged in successfully.", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
-                    if (dt != null && dt.Rows.Count > 0)
-                    {
-                        if (Convert.ToString(dt.Rows[0]["OTP"]) != objUserInfoForGetOTP.sOTP)
-                            return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Invalid OTP.");
-
-                        return Request.CreateResponse(HttpStatusCode.OK, "SUCCESS");
-                    }
-                    else
-                        return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Invalid OTP. Please Resend.");
-                }
-
-                return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Please Contact Administrator with below mentioned error " + sRetVal);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Please Contact Administrator with below mentioned error " + ex.Message);
-            }
-        }
-
-        public HttpResponseMessage ChangePassword(string sEmailID, string sPassword)
-        {
-            #region declaration
-            DataTable dt = new DataTable();
-            string sQuery = "";
-            Random r = new Random();
-            DBOperation.StructDBOperation[] objParam = new DBOperation.StructDBOperation[7];
-            int iParamCount = 0;
-            #endregion
-
-            objParam[iParamCount].sParamName = "@vQueryType";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = "UPDATEPASSWORD";
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@vEmail";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = sEmailID;
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@vPassword";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = sPassword;
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@vMobileNo";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString("");
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@vCompanyName";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString("");
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@vEmailOTP";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString("");
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@vMobileOTP";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString("");
-            iParamCount++;
-
-            sQuery = "ProcUserRegister";
-            sRetVal = DBOperation.ExecuteDBOperation(sQuery, DBOperation.OperationType.STOREDPROC_UPDATE, objParam, ref dt);
-            if (sRetVal == "SUCCESS")
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, "Password Updated Successfully");
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Please Contact Administrator with below mentioned error " + sRetVal);
-            }
-            
-        }
-
         public HttpResponseMessage SaveRating(UserRating objUserRating)
         {
             #region declaration
