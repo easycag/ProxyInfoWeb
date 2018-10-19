@@ -156,6 +156,7 @@
     <Compile Include="Models\GlobalClass.cs" />
     <Compile Include="Models\LoginInfo.cs" />
     <Compile Include="Models\Search.cs" />
+    <Compile Include="Models\UserOperation\UserLogin.cs" />
     <Compile Include="Models\UserOperation\UserInfo.cs" />
     <Compile Include="Models\UserOperation\UserInfo_ForGetOTP.cs" />
     <Compile Include="Models\UserOperation\UserOTP.cs" />

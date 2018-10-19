@@ -38,4 +38,3 @@ E:\Anish\ProxyInfoWeb\ProxyInfoWeb - Copy\obj\Debug\ProxyInfoWeb.csproj.CoreComp
 E:\Anish\ProxyInfoWeb\ProxyInfoWeb - Copy\obj\Debug\ProxyInfoWeb.csproj.CopyComplete
 E:\Anish\ProxyInfoWeb\ProxyInfoWeb - Copy\obj\Debug\ProxyInfoWeb.dll
 E:\Anish\ProxyInfoWeb\ProxyInfoWeb - Copy\obj\Debug\ProxyInfoWeb.pdb
-E:\Anish\ProxyInfoWeb\ProxyInfoWeb - Copy\obj\Debug\ProxyInfoWeb.csprojAssemblyReference.cache
