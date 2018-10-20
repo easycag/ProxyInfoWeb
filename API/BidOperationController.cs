@@ -26,6 +26,7 @@ namespace ProxyInfoWeb.API
             int iParamCount = 0;
             #endregion
 
+
             DBOperation.sConnectionString = ec.Decrypt(GlobalClass.sConnectionString);
 
             objParam[iParamCount].sParamName = "@vQueryType";
