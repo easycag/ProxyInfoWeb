@@ -408,11 +408,16 @@ namespace ProxyInfoWeb.API
             DataTable dt = new DataTable();
             string sQuery = "";
             Random r = new Random();
-            DBOperation.StructDBOperation[] objParam = new DBOperation.StructDBOperation[9];
+            DBOperation.StructDBOperation[] objParam = new DBOperation.StructDBOperation[2];
             int iParamCount = 0;
             #endregion
 
             DBOperation.sConnectionString = ec.Decrypt(GlobalClass.sConnectionString);
+
+            if(GlobalValidation.ShouldNotNull(objBidDetail.BidID))
+            {
+                return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Bid ID validation failed" );
+            }
 
             objParam[iParamCount].sParamName = "@vQueryType";
             objParam[iParamCount].sParamType = SqlDbType.VarChar;
@@ -424,42 +429,8 @@ namespace ProxyInfoWeb.API
             objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.BidID);
             iParamCount++;
 
-            objParam[iParamCount].sParamName = "@cid";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.CId);
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@bidamount";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.BidAmount);
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@userid";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.UserID);
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@viewed";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = objBidDetail.Viewed;
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@status";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.Status);
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@creationdatetime";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.CreationDateTime.ToString("dd-MM-yyyy"));
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@BidUpdateDateTime";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.BidUpdateDateTime.ToString("dd-MM-yyyy")); ;
-            iParamCount++;
-
-            sQuery = "ProcBidOperation";
+           
+            sQuery = "ProcBidOperation_Delete";
             sRetVal = DBOperation.ExecuteDBOperation(sQuery, DBOperation.OperationType.STOREDPROC_UPDATE, objParam, ref dt);
             if (sRetVal == "SUCCESS")
             {
