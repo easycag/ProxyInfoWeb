@@ -1,5 +1,4 @@
-
-CREATE PROCEDURE ProcBidOperation
+ALTER PROCEDURE ProcBidOperation
 (
 @vQueryType VARCHAR(50),
 @bid INT,
@@ -34,13 +33,7 @@ Begin Try
 	BEGIN
 	  UPDATE BidDetail SET bid_amount=@bidamount, bid_update_datetime=getDATE(), bind_update_count= bind_update_count +1 WHERE bid_id=@bid 
 	END
-	ELSE IF(@vQueryType = 'DELETEBID')
-	BEGIN
-		BEGIN TRANSACTION DELETEBid
-		  INSERT INTO BidDetail_deleted SELECT * FROM BidDetail WHERE bid_id=@bid
-		  DELETE FROM BidDetail WHERE bid_id=@bid
-		COMMIT TRANSACTION DELETEBid 
-	END
+	
 	END TRY
 	BEGIN CATCH
 	 DECLARE @ErrorMessage NVARCHAR(4000);  
@@ -52,10 +45,6 @@ Begin Try
         @ErrorSeverity = ERROR_SEVERITY(),  
         @ErrorState = ERROR_STATE();
         
-	IF(@vQueryType = 'DELETEBID')
-	BEGIN
-	ROLLBACK TRANSACTION DELETEBid
-	END;
 	RAISERROR (@ErrorMessage, -- Message text.  
                @ErrorSeverity, -- Severity.  
                @ErrorState -- State.  
