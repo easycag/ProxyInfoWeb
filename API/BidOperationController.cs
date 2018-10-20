@@ -16,6 +16,22 @@ namespace ProxyInfoWeb.API
         string sRetVal = "";
         EncryptionLibrary.Encryption ec = new EncryptionLibrary.Encryption();
 
+        //***************************************** Place Bid **************************************************
+        //      PlaceBid     :   Place the bid for a specific consignment                                       *
+        //      GetBidDetail :   Get the bid detail on the basis of different filter Crieteria                  *
+        //      UpdateBid    :   Update Bid Details. Only Bid amount can modify                                 *
+        //      DeleteBid    :   Delete bid on the basis of bid ID                                              *
+        //
+        //*******************************************************************************************************
+
+            /// Function Name : Place Bid
+            /// Parameter Details 
+            /// 1. BidDetail DTO
+            /// 
+            /// Functionality
+            /// This function accept Bid details DTO and store into DB
+            /// Value of Load ID, User ID, Amount is mandatory
+            
         public HttpResponseMessage PlaceBid(BidDetail objBidDetail)
         {           
             #region declaration
@@ -86,6 +102,19 @@ namespace ProxyInfoWeb.API
             }
         }
 
+
+        /// Function Name : Get Bid Details
+        /// Parameter Details 
+        /// 1. BidDetail DTO
+        /// 
+        /// Functionality
+        /// This function accept Bid details DTO and fetch the details from DB on below filters
+        /// Bid ID
+        /// Load ID
+        /// User ID
+        /// Amount 
+        /// View Status
+        
         [HttpPost]
         public HttpResponseMessage GetBidDetail(BidDetail objBidDetail)
         {
@@ -103,19 +132,19 @@ namespace ProxyInfoWeb.API
             #region Prepare Query Filter
             if (objBidDetail.BidID > 0)
             {
-                sFilter += " AND BidID=" + objBidDetail.BidID;
+                sFilter += " AND bid_id=" + objBidDetail.BidID;
             }
             if (objBidDetail.CId > 0)
             {
-                sFilter += " AND CId=" + objBidDetail.CId;
+                sFilter += " AND load_id=" + objBidDetail.CId;
             }
             if (objBidDetail.BidAmount > 0)
             {
-                sFilter += " AND BidAmount=" + objBidDetail.BidAmount;
+                sFilter += " AND Bid_Amount=" + objBidDetail.BidAmount;
             }
             if (objBidDetail.UserID > 0)
             {
-                sFilter += " AND UserID=" + objBidDetail.UserID;
+                sFilter += " AND User_ID=" + objBidDetail.UserID;
             }
             if (!string.IsNullOrEmpty( objBidDetail.Viewed ))
             {
@@ -289,6 +318,13 @@ namespace ProxyInfoWeb.API
             }
         }
 
+        /// Function Name : Update Bid 
+        /// Parameter Details 
+        /// 1. BidDetail DTO
+        /// 
+        /// Functionality
+        /// This function accept Bid details DTO and update the amount detail into DB based on Bid ID
+        
         public HttpResponseMessage UpdateBid(BidDetail objBidDetail)
         {
             #region declaration
@@ -358,6 +394,14 @@ namespace ProxyInfoWeb.API
             }
         }
 
+
+        /// Function Name : Delete Bid 
+        /// Parameter Details 
+        /// 1. BidDetail DTO
+        /// 
+        /// Functionality
+        /// This function accept Bid details DTO and delete the bid into DB based on Bid ID
+        
         public HttpResponseMessage DeleteBid(BidDetail objBidDetail)
         {
             #region declaration
