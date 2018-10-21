@@ -212,6 +212,10 @@ namespace ProxyInfoWeb.API
             {
                 sFilter = "Where " + sFilter.Substring(4);
             }
+            else
+            {
+                sFilter = null;
+            }
 
             #endregion
             objParam[iParamCount].sParamName = "@vQueryType";
@@ -237,6 +241,7 @@ namespace ProxyInfoWeb.API
             }
         }
 
+        [HttpPost]
         public HttpResponseMessage DeleteConsignment(ConsignmentDetail objConsignmentDetail)
         {
             #region declaration
@@ -278,7 +283,7 @@ namespace ProxyInfoWeb.API
             DataTable dt = new DataTable();
             string sQuery = "";
             Random r = new Random();
-            DBOperation.StructDBOperation[] objParam = new DBOperation.StructDBOperation[11];
+            DBOperation.StructDBOperation[] objParam = new DBOperation.StructDBOperation[2];
             int iParamCount = 0;
             #endregion
 
@@ -289,57 +294,13 @@ namespace ProxyInfoWeb.API
             objParam[iParamCount].sParamValue = "UPDATELOADSTATUS";
             iParamCount++;
 
-            objParam[iParamCount].sParamName = "@iLoadId";
+            objParam[iParamCount].sParamName = "@vFilterClause";
             objParam[iParamCount].sParamType = SqlDbType.Int;
             objParam[iParamCount].sParamValue = Convert.ToString(objConsignmentDetail.CId);
             iParamCount++;
 
-            objParam[iParamCount].sParamName = "@iUserId";
-            objParam[iParamCount].sParamType = SqlDbType.Int;
-            objParam[iParamCount].sParamValue = Convert.ToString(objConsignmentDetail.UserID);
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@vDepartureCity";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = objConsignmentDetail.DepartureCity;
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@vDestinationCity";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = objConsignmentDetail.DestinationCity;
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@dStartDate";
-            objParam[iParamCount].sParamType = SqlDbType.DateTime;
-            objParam[iParamCount].sParamValue = objConsignmentDetail.CStartDate.ToString("MM-dd-yyyy hh:mm:ss"); ;
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@vMaterial";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = objConsignmentDetail.Cmaterial;
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@fApproximateWeight";
-            objParam[iParamCount].sParamType = SqlDbType.Float;
-            objParam[iParamCount].sParamValue = Convert.ToString(objConsignmentDetail.ApproximateWeight);
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@dApproximateBudget";
-            objParam[iParamCount].sParamType = SqlDbType.Float;
-            objParam[iParamCount].sParamValue = Convert.ToString(objConsignmentDetail.ApproximateBudget);
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@bLoading";
-            objParam[iParamCount].sParamType = SqlDbType.Bit;
-            objParam[iParamCount].sParamValue = objConsignmentDetail.Loading ? "1" : "0";
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@bUnLoading";
-            objParam[iParamCount].sParamType = SqlDbType.Bit;
-            objParam[iParamCount].sParamValue = objConsignmentDetail.UnLoading ? "1" : "0";
-            iParamCount++;
-
-            sQuery = "ProcOfferConsignment";
+            
+            sQuery = "ProcGetOfferConsignment";
             sRetVal = DBOperation.ExecuteDBOperation(sQuery, DBOperation.OperationType.STOREDPROC_UPDATE, objParam, ref dt);
             if (sRetVal == "SUCCESS")
             {
