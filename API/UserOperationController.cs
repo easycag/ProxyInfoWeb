@@ -273,124 +273,74 @@ namespace ProxyInfoWeb.API
         }
 
 
-        //*******************************************************************************************************
-        //      UserLogin   :   Login/Signup user with mobile number                                            *
+        //***************************************** User Info **************************************************
+        //      UserInfo  :   Insert User Info                                             *
         //      ValidateOTP :   Validate register mobile number with OTP                                        *
         //      UpdateUserPreference    :   Update user preference of user i.e. Company Owner/ Fleet Owner      *
         //                                                                                                      *
         //*******************************************************************************************************
-        
 
 
-        public HttpResponseMessage UpdateRecord(UserInfo objUserInfo)
+
+        public HttpResponseMessage UpdateUserInfo(UserInfo objUserInfo)
         {
             #region declaration
             DataTable dt = new DataTable();
             string sQuery = "";
             Random r = new Random();
-            DBOperation.StructDBOperation[] objParam = new DBOperation.StructDBOperation[7];
             int iParamCount = 0;
-            string sEmailID_OTP = "";
-            string sMobile_OTP = "";
-            string sMobile = "";
             #endregion
-
-            #region validation
-
-            if (string.IsNullOrEmpty(objUserInfo.sEmailID))
-            {
-                return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Email ID can't be blank");
-            }
-
-            if (string.IsNullOrEmpty(objUserInfo.sCompany_Name))
-            {
-                return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Company Name can't be blank");
-            }
-            if (string.IsNullOrEmpty(objUserInfo.sPassword))
-            {
-                return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Password can't be blank");
-            }
-            #region Email Verification
+            
             DBOperation.sConnectionString = ec.Decrypt(GlobalClass.sConnectionString);
-            DBOperation.StructDBOperation[] structDBOperation = new DBOperation.StructDBOperation[2];
+            DBOperation.StructDBOperation[] objParam = new DBOperation.StructDBOperation[8];
 
-            structDBOperation[0].sParamName = "@vQueryType";
-            structDBOperation[0].sParamType = SqlDbType.VarChar;
-            structDBOperation[0].sParamValue = "GETUSERDETAILS";
-
-            structDBOperation[1].sParamName = "@vUserName";
-            structDBOperation[1].sParamType = SqlDbType.VarChar;
-            structDBOperation[1].sParamValue = objUserInfo.sEmailID;
-
-            sRetVal = DBOperation.ExecuteDBOperation("ProcGetUserInfo_App", DBOperation.OperationType.STOREDPROC, structDBOperation, ref dt);
-
-            if (sRetVal == "SUCCESS")
-            {
-                //Logs.StoreActivityLogsInDB(LogType.Login, GlobalData.iUserID, "Logged in successfully.", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    sMobile = Convert.ToString( dt.Rows[0]["MobileNo"]);
-                }
-                else
-                {
-                    return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "No Email ID register.");
-                }
-            }
-            else
-                return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Some error occured into information fetching, Please Contact administrator.");
-            #endregion
-
-            #endregion
-
-            if ((objUserInfo.lMobileNo != Convert.ToInt64( sMobile)))
-            {
-                r = new Random();
-                sMobile_OTP = r.Next().ToString();
-                sMobile_OTP = sMobile_OTP.PadLeft(6, '0');
-                sMobile_OTP = sMobile_OTP.Substring(0, 6);
-                sendSMS(objUserInfo.lMobileNo, "Your OTP for " + GlobalClass.sCompanyName + " is " + sMobile_OTP);
-            }
+            
 
             objParam[iParamCount].sParamName = "@vQueryType";
             objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = "UPDATEUSERDETAILS";
+            objParam[iParamCount].sParamValue = "USERINFO";
             iParamCount++;
 
-            objParam[iParamCount].sParamName = "@vEmail";
+            objParam[iParamCount].sParamName = "@iuser_id";
+            objParam[iParamCount].sParamType = SqlDbType.Int;
+            objParam[iParamCount].sParamValue = Convert.ToString(objUserInfo.iUserId);
+            iParamCount++;
+
+            objParam[iParamCount].sParamName = "@vuser_name";
+            objParam[iParamCount].sParamType = SqlDbType.VarChar;
+            objParam[iParamCount].sParamValue = objUserInfo.sUser_Name;
+            iParamCount++;
+
+            objParam[iParamCount].sParamName = "@vuser_email_id";
             objParam[iParamCount].sParamType = SqlDbType.VarChar;
             objParam[iParamCount].sParamValue = objUserInfo.sEmailID;
             iParamCount++;
 
-            objParam[iParamCount].sParamName = "@vPassword";
+            objParam[iParamCount].sParamName = "@vuser_address";
             objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = objUserInfo.sPassword;
+            objParam[iParamCount].sParamValue = objUserInfo.sUser_Address;
             iParamCount++;
 
-            objParam[iParamCount].sParamName = "@vMobileNo";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objUserInfo.lMobileNo);
+            objParam[iParamCount].sParamName = "@iuser_zip";
+            objParam[iParamCount].sParamType = SqlDbType.Int;
+            objParam[iParamCount].sParamValue = Convert.ToString(objUserInfo.sUser_Zip);
             iParamCount++;
 
-            objParam[iParamCount].sParamName = "@vCompanyName";
+            objParam[iParamCount].sParamName = "@vuser_gst_pan";
             objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objUserInfo.sCompany_Name);
+            objParam[iParamCount].sParamValue = objUserInfo.sUser_Gst_Pan;
             iParamCount++;
 
-            objParam[iParamCount].sParamName = "@vEmailOTP";
+            objParam[iParamCount].sParamName = "@vuser_company_name";
             objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(sEmailID_OTP);
+            objParam[iParamCount].sParamValue = objUserInfo.sCompany_Name;
             iParamCount++;
 
-            objParam[iParamCount].sParamName = "@vMobileOTP";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(sMobile_OTP);
-            iParamCount++;
-
-            sQuery = "ProcUserRegister";
+            sQuery = "ProcUserInfo";
             sRetVal = DBOperation.ExecuteDBOperation(sQuery, DBOperation.OperationType.STOREDPROC_UPDATE, objParam, ref dt);
             if (sRetVal == "SUCCESS")
             {
-                return Request.CreateResponse(HttpStatusCode.OK, "SUCCESS");
+                return Request.CreateResponse(HttpStatusCode.OK, "User Info Updated Successfully");
             }
             else
             {

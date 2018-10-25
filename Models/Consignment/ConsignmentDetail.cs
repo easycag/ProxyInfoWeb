@@ -11,10 +11,10 @@ namespace ProxyInfoWeb.Models.Consignment
         public int UserID;
         public string DepartureCity;
         public string DestinationCity;
-        public DateTime CDate;
+        public DateTime CStartDate;
         public string Cmaterial;
-        public string ApproximateWeight;
-        public string ApproximateBudget;
+        public float ApproximateWeight;
+        public double ApproximateBudget;
         public bool Loading;
         public bool UnLoading;
         public int Cstatus;
