@@ -1,5 +1,4 @@
-
-CREATE PROCEDURE ProcBidOperation_Delete
+ALTER PROCEDURE ProcBidOperation_Delete
 (
 @vQueryType VARCHAR(50),
 @bid INT
@@ -7,6 +6,8 @@ CREATE PROCEDURE ProcBidOperation_Delete
 AS
 DECLARE @vID INT
 DECLARE @vCount INT
+DECLARE @bid_Amount NUMERIC(18,2)
+DECLARE @load_id INT
 BEGIN
 Begin Try 
 	
@@ -15,7 +16,21 @@ Begin Try
 		BEGIN TRANSACTION 
 		  INSERT INTO BidDetail_deleted SELECT * FROM BidDetail WHERE bid_id=@bid
 		  DELETE FROM BidDetail WHERE bid_id=@bid
-		COMMIT TRANSACTION DELETEBid 
+		COMMIT TRANSACTION  
+	END
+	IF(@vQueryType = 'ACCEPTBID')
+	BEGIN
+		BEGIN TRANSACTION 
+		 UPDATE BidDetail SET bid_Status=1, Bid_Update_DateTime=getDATE() WHERE bid_id=@bid;
+	  SELECT @bid_Amount=bid_amount, @load_id=load_id  FROM BidDetail WHERE bid_id=@bid;
+	  UPDATE offer_load SET load_total_amount=@bid_Amount,load_pending_amount=@bid_Amount  WHERE load_id=@load_id;
+		COMMIT TRANSACTION  
+	END
+	IF(@vQueryType = 'REJECTBID')
+	BEGIN
+		BEGIN TRANSACTION 
+		 UPDATE BidDetail SET bid_Status=2, Bid_Update_DateTime=getDATE() WHERE bid_id=@bid;
+		COMMIT TRANSACTION  
 	END
 	END TRY
 	BEGIN CATCH

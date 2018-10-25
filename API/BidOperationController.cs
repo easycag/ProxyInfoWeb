@@ -13,6 +13,7 @@ namespace ProxyInfoWeb.API
 {
     public class BidOperationController : ApiController
     {
+        private const string ProcBidOperation_Bid = "ProcBidOperation_Delete";
         string sRetVal = "";
         EncryptionLibrary.Encryption ec = new EncryptionLibrary.Encryption();
 
@@ -180,13 +181,21 @@ namespace ProxyInfoWeb.API
             }
         }
 
+        /// Function Name : Accept Bid Details
+        /// Parameter Details 
+        /// 1. BidDetail DTO
+        /// 
+        /// Functionality
+        /// This function accept Bid details DTO and Modify the Bid and Load details based on the Bid ID
+        /// 
+
         public HttpResponseMessage AcceptBid(BidDetail objBidDetail)
         {
             #region declaration
             DataTable dt = new DataTable();
             string sQuery = "";
             Random r = new Random();
-            DBOperation.StructDBOperation[] objParam = new DBOperation.StructDBOperation[9];
+            DBOperation.StructDBOperation[] objParam = new DBOperation.StructDBOperation[2];
             int iParamCount = 0;
             #endregion
 
@@ -202,42 +211,7 @@ namespace ProxyInfoWeb.API
             objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.BidID);
             iParamCount++;
 
-            objParam[iParamCount].sParamName = "@cid";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.CId);
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@bidamount";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.BidAmount);
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@userid";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.UserID);
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@viewed";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = objBidDetail.Viewed;
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@status";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.Status);
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@creationdatetime";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.CreationDateTime.ToString("dd-MM-yyyy"));
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@BidUpdateDateTime";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.BidUpdateDateTime.ToString("dd-MM-yyyy")); ;
-            iParamCount++;
-
-            sQuery = "ProcBidOperation";
+            sQuery = ProcBidOperation_Bid;
             sRetVal = DBOperation.ExecuteDBOperation(sQuery, DBOperation.OperationType.STOREDPROC_UPDATE, objParam, ref dt);
             if (sRetVal == "SUCCESS")
             {
@@ -249,13 +223,20 @@ namespace ProxyInfoWeb.API
             }
         }
 
+        /// Function Name : Reject Bid Details
+        /// Parameter Details 
+        /// 1. BidDetail DTO
+        /// 
+        /// Functionality
+        /// This function accept Bid details DTO and mark the bid as rejected based on the Bid ID
+        /// 
         public HttpResponseMessage RejectBid(BidDetail objBidDetail)
         {
             #region declaration
             DataTable dt = new DataTable();
             string sQuery = "";
             Random r = new Random();
-            DBOperation.StructDBOperation[] objParam = new DBOperation.StructDBOperation[9];
+            DBOperation.StructDBOperation[] objParam = new DBOperation.StructDBOperation[2];
             int iParamCount = 0;
             #endregion
 
@@ -271,42 +252,8 @@ namespace ProxyInfoWeb.API
             objParam[iParamCount].sParamValue =Convert.ToString( objBidDetail.BidID);
             iParamCount++;
 
-            objParam[iParamCount].sParamName = "@cid";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.CId);
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@bidamount";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.BidAmount);
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@userid";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.UserID);
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@viewed";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = objBidDetail.Viewed;
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@status";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.Status);
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@creationdatetime";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.CreationDateTime.ToString("dd-MM-yyyy"));
-            iParamCount++;
-
-            objParam[iParamCount].sParamName = "@BidUpdateDateTime";
-            objParam[iParamCount].sParamType = SqlDbType.VarChar;
-            objParam[iParamCount].sParamValue = Convert.ToString(objBidDetail.BidUpdateDateTime.ToString("dd-MM-yyyy")); ;
-            iParamCount++;
-
-            sQuery = "ProcBidOperation";
+           
+            sQuery = ProcBidOperation_Bid;
             sRetVal = DBOperation.ExecuteDBOperation(sQuery, DBOperation.OperationType.STOREDPROC_UPDATE, objParam, ref dt);
             if (sRetVal == "SUCCESS")
             {
@@ -430,7 +377,7 @@ namespace ProxyInfoWeb.API
             iParamCount++;
 
            
-            sQuery = "ProcBidOperation_Delete";
+            sQuery = ProcBidOperation_Bid;
             sRetVal = DBOperation.ExecuteDBOperation(sQuery, DBOperation.OperationType.STOREDPROC_UPDATE, objParam, ref dt);
             if (sRetVal == "SUCCESS")
             {
